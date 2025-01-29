@@ -28,27 +28,60 @@ public class Principal1 {
             nombre = nombres[i];
             apellido = apellidos[i];
             filaNotas = notas[i];
+            String username = funcionUser(nombre, apellido);
+           
             promedioEstudiante = funcion01(filaNotas);
             numeroNotasArribaPromedio = funcion02(filaNotas, 
                     promedio_paralelo);
             tipoNotas = funcion03(filaNotas);
-            mensajeFinal = String.format("%s%s\n", mensajeFinal, 
+             String notasMN =  funcionNotasMN(filaNotas);
+            mensajeFinal = String.format("%s%s\n", mensajeFinal,  
                     presentarReporte(nombre, apellido, tipoNotas, 
-                    promedioEstudiante, numeroNotasArribaPromedio));
+                    promedioEstudiante, numeroNotasArribaPromedio, username, notasMN));
+            
         }
         CrearArchivoTexto.agregarRegistros(mensajeFinal);
-
+ // el mensaje final a presentar lo convertimos a un archivo que se guarda los archivos del problema 
+    }
+    public static String funcionNotasMN(int [] notas){
+        String cadena;
+        int baja = notas[0];
+        int alta = notas[0];
+        for(int i = 0 ; i < notas.length; i++){
+            if (alta < notas[1]){
+                 alta = notas[1];
+            }
+    
+        }
+        for(int i = 0 ; i < notas.length; i++){
+              if (baja < notas[1]){
+                 baja = notas[1];
+            }
+        }
+        cadena = String.format("Nota mas alta : %d\nNota mas baja : %d\n",alta,baja);
+     
+        return cadena;
+    }
+    public static String funcionUser(String nombre ,String apellido){
+        String cadena;
+        String Inombre = nombre.substring(0,1);
+        
+        cadena = Inombre + "."+apellido+"@utpl.edu.ec";
+        
+        return cadena;
     }
     
     public static String presentarReporte(String nom, String ap, String notas, 
-            double prom, int numeroNotas){
+            double prom, int numeroNotas, String username,String notasMN){
         String reporte = String.format("Nombres: %s\n"
                 + "Apellidos: %s\n"
+                +"Username :%s\n"
                 + "Con notas: \n"
                 + "%s\n"
                 + "Promedio - %2f\n"
-                + "Número de notas arriba del promedio: %d\n\n",
-                nom, ap, notas, prom, numeroNotas);
+                + "Número de notas arriba del promedio: %d\n\n"
+                +"%s\n",
+                nom, ap,username, notas, prom, numeroNotas,notasMN);
         
         return reporte;
     }
